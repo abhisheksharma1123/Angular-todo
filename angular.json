@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  
+  "projects": {
+    "api": "apps/api",
+    "api-interfaces": "libs/api-interfaces",
+    "demo": "apps/demo",
+    "demo-e2e": "apps/demo-e2e",
+    "material": "libs/material"
+  }
+}

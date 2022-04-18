@@ -1,0 +1,35 @@
+<mat-card class="card" *ngIf="task">
+    <div class="header">
+        <mat-card-title class="title">{{task["title"]}}</mat-card-title>
+        <p class="date">Last update: {{task["created_at"] | date:'short':'UTC'}}</p>
+        
+        <p class="date">Status: {{task["status"] ? "completed": "Pending"}}</p>
+    </div>
+    <div>
+        <form [formGroup]="todoForm" class="todoForm" (ngSubmit)="onUpdate()">
+
+            <mat-form-field appearance="fill">
+            <mat-label for="title">Title</mat-label>
+            <input matInput id="title"  type="text" formControlName="title" class="formInput">
+            </mat-form-field>
+        
+            <mat-form-field appearance="fill">
+            <mat-label for="description">
+                Description</mat-label>
+            <textarea matInput id="description" type="text" formControlName="description"></textarea>
+            </mat-form-field>
+        
+            <button mat-raised-button type="submit"
+             color="primary" 
+              >
+              Update
+            </button>
+          </form>
+          <button mat-raised-button
+          (click)="$event.preventDefault(); onDelete()"
+          class="delete"
+            >
+            delete
+          </button>
+    </div>
+</mat-card>
