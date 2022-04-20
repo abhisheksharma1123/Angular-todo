@@ -31,7 +31,7 @@
     <ng-container matColumnDef="action">
       <th mat-header-cell *matHeaderCellDef> Mark as Complete </th>
       <td>
-        <mat-checkbox *matCellDef="let todo" [checked]="todo.status">
+        <mat-checkbox *matCellDef="let todo" [checked]="todo.status" (change)="markComplete(todo.id, todo.status)">
         </mat-checkbox>
       </td>
     </ng-container>

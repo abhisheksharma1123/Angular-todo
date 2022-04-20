@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Todo } from '@abhi/api-interfaces';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { tap } from 'rxjs';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Location } from '@angular/common';
+import { MainService } from '../main.service';
 
 
 @Component({
@@ -14,7 +14,8 @@ import { Location } from '@angular/common';
 })
 export class DetailsComponent implements OnInit {
 
-  constructor(private route: ActivatedRoute,
+  constructor(private todoService: MainService,
+    private route: ActivatedRoute,
               private http: HttpClient,
               private location: Location) { }
   
@@ -33,8 +34,7 @@ export class DetailsComponent implements OnInit {
   };
 
   getTodo(){
-    this.http.get(`/api/todos/${this.id}`).pipe(tap(console.log))
-    .subscribe(todo => {
+     this.todoService.getTodoById(this.id).subscribe(todo => {
       this.task=todo
       // Syncing form values
       this.todoForm.patchValue({
@@ -49,7 +49,7 @@ export class DetailsComponent implements OnInit {
   }
   
 onDelete(){
-  this.http.delete<Todo>(`/api/todos/${this.id}`).subscribe(); 
+  this.todoService.deleteTodo(this.id).subscribe(); 
   this.location.go('')
   window.location.reload()
  
@@ -58,8 +58,8 @@ onDelete(){
    const data = this.todoForm.value;
    const reqObj = JSON.stringify({...data, status: false, created_at: new Date()});
   //  Must subscribe to post request otherwise no request will be made
-  this.http.put<Todo>(`/api/todos/${this.id}`,reqObj , this.httpOptions)
-  .subscribe(task => console.log(task))
+  
+  this.todoService.updateTodo(this.id, reqObj, this.httpOptions).subscribe(task => console.log(task))
   this.todoForm.reset()
   window.location.reload()
  }
